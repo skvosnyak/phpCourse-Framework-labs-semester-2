@@ -42,6 +42,7 @@ DB_PASSWORD=yourpassword
 
 3. Запустить контейнеры:
 ```bash
+cd source/MyProject
 make up
 ```
 

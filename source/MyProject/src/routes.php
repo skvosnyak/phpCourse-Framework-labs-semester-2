@@ -7,4 +7,7 @@ return [
     '~^articles/(\d+)/edit$~' => [\MyProject\Controllers\ArticlesController::class, 'edit'],
     '~^articles/add$~' => [\MyProject\Controllers\ArticlesController::class, 'add'],
     '~^articles/(\d+)/save$~' => [\MyProject\Controllers\ArticlesController::class, 'save'],
+    '~^articles/(\d+)/comments$~' => [\MyProject\Controllers\ArticlesController::class, 'comments'],
+    '~^articles/(\d+)/addComment$~' => [\MyProject\Controllers\ArticlesController::class, 'addComment'],
+    '~^comments/(\d+)/edit$~' => [\MyProject\Controllers\CommentsController::class, 'edit'],
 ];

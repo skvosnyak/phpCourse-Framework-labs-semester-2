@@ -4,6 +4,7 @@ namespace MyProject\Controllers;
 use MyProject\View\View;
 use MyProject\Models\Articles\Article;
 use MyProject\Models\Users\User;
+use MyProject\Models\Comments\Comment;
 
 class ArticlesController
 {
@@ -61,8 +62,51 @@ class ArticlesController
     $article->setName('Новое название статьи');
     $article->setText('Новый текст статьи');
     $article->save();
+  }
+  public function comments(int $articleId): void
+  {
+    $article = Article::getById($articleId);
+    if ($article === null) {
+      http_response_code(404);
+      $this->view->renderHtml('errors/404.php');
+      return;
+    }
 
+    $comments = Comment::findByArticleId($articleId);
+    $this->view->renderHtml('Articles/comments.php', [
+      'article' => $article,
+      'comments' => $comments,
+    ]);
   }
 
+  public function addComment(int $articleId): void
+  {
+    $article = Article::getById($articleId);
+    if ($article === null) {
+      http_response_code(404);
+      $this->view->renderHtml('errors/404.php');
+      return;
+    }
 
+    $authorName = $_POST['authorName'] ?? '';
+    $author = User::getByNickname($authorName);
+
+    if ($author === null) {
+      $this->view->renderHtml('Articles/comments.php', [
+        'article' => $article,
+        'comments' => Comment::findByArticleId($articleId),
+        'error' => 'Пользователь "' . htmlspecialchars($authorName) . '" не найден',
+      ]);
+      return;
+    }
+
+    $comment = new Comment();
+    $comment->setArticle($article);
+    $comment->setAuthor($author);
+    $comment->setText($_POST['comment'] ?? '');
+    $comment->save();
+
+    header('Location: /articles/' . $articleId . '/comments');
+    exit;
+  }
 }

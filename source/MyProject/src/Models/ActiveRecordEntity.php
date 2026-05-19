@@ -27,6 +27,7 @@ abstract class ActiveRecordEntity
     $db = DB::getInstance();
     return $db->query('SELECT * FROM ' . static::getTableName(), [], static::class);
   }
+
   public static function getById(int $id): ?self
   {
     $db = DB::getInstance();
@@ -114,7 +115,7 @@ abstract class ActiveRecordEntity
 
   public function delete(): void
   {
-    $db = Db::getInstance();
+    $db = DB::getInstance();
     $db->query(
       'DELETE FROM ' . static::getTableName() . ' WHERE id = :id',
       [':id' => $this->id]

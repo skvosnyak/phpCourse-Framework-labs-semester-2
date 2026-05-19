@@ -61,6 +61,8 @@
   <a href="/articles/<?= $article->getId() ?>/edit">Редактировать запись</a>
   <br>
   <a href="/">На главную</a>
+  <br>
+  <a href="/articles/<?= htmlspecialchars($article->getId()) ?>/comments">Комментарии</a>
   <script defer>
     const button = document.querySelector('.authorButton');
     const authorInfo = document.querySelector('.authorInfo');
